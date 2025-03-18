@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЧГК-зашквар-бинго</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .bingo-card {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 10px;
+            margin: 0 auto;
+            max-width: 600px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .bingo-cell {
+            aspect-ratio: 1;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            height: 80px;
+            width: 80px;
+            overflow: hidden;
+            word-wrap: break-word;
+            line-height: 1.1;
+        }
+        .bingo-cell.marked {
+            background-color: #8B4513;
+            color: white;
+        }
+        @media print {
+            .controls {
+                display: none;
+            }
+            body {
+                background-color: white;
+            }
+            .bingo-card {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>ЧГК-зашквар-бинго by @tatarchgk</h1>
+    <div class="controls">
+        <button id="new-card-btn">Новая карточка</button>
+    </div>
+    
+    <div id="bingo-card" class="bingo-card"></div>
+
+    <script>
+        // Зашитые опции для бинго
+        const bingoOptions = [
+            "Писать вопросы о реалиях, о которых ты ничего не знаешь и прочел одну статью или шутку",
+            "Быть ссаным мудаком обдроченным, который не делает нихуя полезного и только критикует",
+            "Громко комментировать ответы других команд",
+            "Критиковать пакет вопросов сразу после игры перед автором",
+            "Смотреть НТВшный свояк",
+            "Написать вопрос по anekdot.ru/.net",
+            "Мешать другим игрокам громкими разговорами во время чтения вопроса",
+            "Играть Z-чемпионат россии",
+            "Играть с сексистом",
+            "Пойти играть в теледомик",
+            "Спорить с ведущим о зачёте ответа",
+            "Играть в команде Амбер",
+            "Придумывать реп ради вопроса или писать выдуманное произведение, надеюсь, у всех, кто так делает, отвалится жопа",
+            "Называть людей, не играющих в спортивное ЧГК, маглами",
+            "Использовать утютюшные названия про эстонских животных",
+            "Брать разовое название, связанной с реалией из вопроса под мораторием",
+            "Палить в раздатку раньше времени",
+            "Играть вопросы Павла Ершова",
+            "Шутить про тёплые яички собеседника или его родственников",
+            "Не платить организационный взнос вовремя",
+            "Ставить на турнир два тура мерзлякова блядского",
+            "Писать вопросы с ответами типа \"тупая пизда\" о женщинах или считать достойным поводом для вопроса стереотип, что женщины глупые и/или хуже мужчин",
+            "\"четвёртая четверть четвёртого века\"",
+            "Быть павлом ершовым",
+            "Требовать зачесть ответ, противоречащий одной из частей вопроса",
+            "Гуглить на тесте вопросов",
+            "Играть с зиганавтами, которые открыто выражают свою позицию",
+            "Приходить на игру в нетрезвом состоянии",
+            "Форсить термин \"пушка\" в значении \"хороший вопрос\"",
+            "Использовать арт синхрона, сгенерированный ChatGPT",
+            "Публиковать ответы на вопросы в соцсетях до окончания турнира",
+            "Написать в анонсе, что турнир подойдет как новичкам, так и опытным командам",
+            "Отвечать на телефонные звонки во время игры",
+            "Играть в команде с родственниками",
+            "Писать чернуху про изнасилование ради изнасилования",
+            "Смотреть теледомик",
+            "Включать руzzкий рэп в перерывах на площадке",
+            "Писать вопросы про сабатон",
+            "Припрыгивать у других команд, мол, а чо, сколько у вас",
+            "согласно шутке автора вопроса СОГЛАСНО СУКА ТЫ ЕБЛАН ИДИ НА ХУЙ",
+            "Говорить, что этот синхрон для тебя — что-то персональное в надежде, что тебя не будут осуждать",
+            "Менять название команды перед каждой игрой",
+            "Постоянно отвлекаться на соцсети во время игры",
+            "Играть пакет команды \"Чмоки\"",
+            "Подсказывать другим командам",
+            "Вслух выражать недовольство феминитивом в тексте вопроса",
+            "Героически вернуться в россию и писать вопросы про то что империализм это плохо",
+            "Пойти играть в НТВшный свояк",
+            "Быть Максимом Сидоровым",
+            "Написать вопрос с ершонимом",
+            "Придумать себе альтер-эго, чтобы писать хуевые вопросы. если уж пишешь про расизм или зигу, не бойся делать это от своего лица, ссыкунишка блядская",
+            "Играть в теледомике после 24.02.2022",
+            "Смеяться над забавно звучащей фамилией в тексте вопроса",
+            "Играть турнир, получивший лицензию МАК",
+            "Зиговать на музыкальной игре",
+            "чернуха от Старовойтова",
+            "Писать в комментариях \"сексизм это плохо\", если сам вопрос о сексизме. Лучше написать вопрос по реалии без него",
+            "Опаздывать на игру без предупреждения",
+            "Угукать во время чтения вопроса",
+            "Говорить «это же очевидно»",
+            "Отбирать бланк у капитана",
+            "Эмоционально демонстрировать недовольство капитанским неотбором",
+            "Нарушать правила, будучи ведущим на моноплощадке",
+            "Получать лицензию МАК для своего фестиваля",
+            "Оферта Михаила Савченкова",
+            "Выдумывать факты, о которых не говорится в источнике",
+            "Написать вопрос с сумасшедшей формой, которая нисколько не помогает взятию",
+            "Запрещать свои еду и напитки на площадке",
+            "Играть с Михаилом Скипским"
+        ];
+
+        // Элементы DOM
+        const bingoCard = document.getElementById('bingo-card');
+        const newCardBtn = document.getElementById('new-card-btn');
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            generateBingoCard();
+        });
+
+        // Функция случайного перемешивания массива
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // Генерация карточки бинго
+        function generateBingoCard() {
+            bingoCard.innerHTML = '';
+            
+            const shuffledOptions = shuffleArray(bingoOptions).slice(0, 25);
+            
+            shuffledOptions.forEach((option, index) => {
+                const cell = document.createElement('div');
+                cell.className = 'bingo-cell';
+                cell.textContent = option;
+                
+                // Адаптивный размер шрифта в зависимости от количества текста
+                if (option.length < 30) {
+                    cell.style.fontSize = '13px';
+                } else if (option.length < 60) {
+                    cell.style.fontSize = '11px';
+                } else if (option.length < 100) {
+                    cell.style.fontSize = '10px';
+                } else {
+                    cell.style.fontSize = '9px';
+                }
+                
+                cell.addEventListener('click', function() {
+                    this.classList.toggle('marked');
+                });
+                bingoCard.appendChild(cell);
+            });
+        }
+
+        // Обработчик событий
+        newCardBtn.addEventListener('click', generateBingoCard);
+    </script>
+</body>
+</html>
