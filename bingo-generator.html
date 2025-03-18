@@ -39,6 +39,12 @@
         button:hover {
             background-color: #45a049;
         }
+        #save-image-btn {
+            background-color: #2196F3;
+        }
+        #save-image-btn:hover {
+            background-color: #0b7dda;
+        }
         .bingo-card {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -86,12 +92,15 @@
     </style>
 </head>
 <body>
-    <h1>ЧГК-зашквар-бинго by @tatarchgk</h1>
+    <h1>ЧГК-зашквар-бинго by <a href="https://t.me/tatarchgk" target="_blank">t.me/tatarchgk</a></h1>
     <div class="controls">
         <button id="new-card-btn">Новая карточка</button>
+        <button id="save-image-btn">Сохранить как изображение</button>
     </div>
-    
+
     <div id="bingo-card" class="bingo-card"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <script>
         // Зашитые опции для бинго
@@ -170,6 +179,7 @@
         // Элементы DOM
         const bingoCard = document.getElementById('bingo-card');
         const newCardBtn = document.getElementById('new-card-btn');
+        const saveImageBtn = document.getElementById('save-image-btn');
 
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
@@ -189,14 +199,14 @@
         // Генерация карточки бинго
         function generateBingoCard() {
             bingoCard.innerHTML = '';
-            
+
             const shuffledOptions = shuffleArray(bingoOptions).slice(0, 25);
-            
+
             shuffledOptions.forEach((option, index) => {
                 const cell = document.createElement('div');
                 cell.className = 'bingo-cell';
                 cell.textContent = option;
-                
+
                 // Адаптивный размер шрифта в зависимости от количества текста
                 if (option.length < 30) {
                     cell.style.fontSize = '13px';
@@ -207,7 +217,7 @@
                 } else {
                     cell.style.fontSize = '9px';
                 }
-                
+
                 cell.addEventListener('click', function() {
                     this.classList.toggle('marked');
                 });
@@ -215,8 +225,76 @@
             });
         }
 
-        // Обработчик событий
+        // Функция сохранения карточки как изображения
+        function saveAsImage() {
+            // Показываем пользователю, что началась обработка
+            saveImageBtn.textContent = 'Подготовка...';
+            saveImageBtn.disabled = true;
+
+            // Создаем элемент для скриншота, включающий заголовок и карточку
+            const screenshotContainer = document.createElement('div');
+            screenshotContainer.style.backgroundColor = 'white';
+            screenshotContainer.style.padding = '20px';
+            screenshotContainer.style.maxWidth = '640px';
+            screenshotContainer.style.margin = '0 auto';
+
+            // Создаем заголовок для скриншота
+            const titleEl = document.createElement('h1');
+            titleEl.textContent = 'ЧГК-зашквар-бинго by t.me/tatarchgk';
+            titleEl.style.textAlign = 'center';
+            titleEl.style.color = '#333';
+            titleEl.style.marginBottom = '20px';
+
+            // Добавляем заголовок в контейнер
+            screenshotContainer.appendChild(titleEl);
+
+            // Клонируем карточку бинго
+            const bingoClone = bingoCard.cloneNode(true);
+            screenshotContainer.appendChild(bingoClone);
+
+            // Временно добавляем контейнер в body, но делаем его невидимым
+            screenshotContainer.style.position = 'absolute';
+            screenshotContainer.style.left = '-9999px';
+            document.body.appendChild(screenshotContainer);
+
+            // Используем html2canvas для создания изображения
+            html2canvas(screenshotContainer, {
+                backgroundColor: "white",
+                scale: 2, // Увеличиваем качество в 2 раза
+                logging: false,
+                useCORS: true
+            }).then(canvas => {
+                // Создаем ссылку на изображение
+                const link = document.createElement('a');
+                link.download = 'ЧГК-зашквар-бинго.png';
+                link.href = canvas.toDataURL('image/png');
+
+                // Удаляем временный контейнер
+                document.body.removeChild(screenshotContainer);
+
+                // Имитируем клик по ссылке для скачивания
+                link.click();
+
+                // Восстанавливаем состояние кнопки
+                saveImageBtn.textContent = 'Сохранить как изображение';
+                saveImageBtn.disabled = false;
+            }).catch(err => {
+                console.error('Ошибка при создании изображения:', err);
+                // Удаляем временный контейнер в случае ошибки
+                if (document.body.contains(screenshotContainer)) {
+                    document.body.removeChild(screenshotContainer);
+                }
+                saveImageBtn.textContent = 'Ошибка! Попробуйте снова';
+                setTimeout(() => {
+                    saveImageBtn.textContent = 'Сохранить как изображение';
+                    saveImageBtn.disabled = false;
+                }, 2000);
+            });
+        }
+
+        // Обработчики событий
         newCardBtn.addEventListener('click', generateBingoCard);
+        saveImageBtn.addEventListener('click', saveAsImage);
     </script>
 </body>
 </html>
