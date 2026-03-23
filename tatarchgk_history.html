@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Татарская школа спортивного ЧГК -- История канала</title>
+<style>
+:root {
+  --bg: #0a0e1a;
+  --card-bg: #151d30;
+  --card-bg-alt: #1a2440;
+  --border: #1e293b;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --accent: #1877F2;
+  --accent-glow: rgba(24,119,242,0.15);
+  --green: #02e2ac;
+  --green-dim: rgba(2,226,172,0.15);
+  --orange: #f59e0b;
+  --orange-dim: rgba(245,158,11,0.15);
+  --purple: #a855f7;
+  --purple-dim: rgba(168,85,247,0.15);
+  --red: #ef4444;
+  --red-dim: rgba(239,68,68,0.15);
+  --hero-grad-from: #ffffff;
+  --hero-grad-to: #1877F2;
+  --nav-bg: rgba(10,14,26,0.92);
+  --chart-grid: #1e293b;
+  --chart-label: #64748b;
+  --heatmap-empty: #0d1525;
+  --tooltip-bg: #1e293b;
+  --tooltip-border: #2d3a50;
+}
+[data-theme="light"] {
+  --bg: #fafbfc;
+  --card-bg: #ffffff;
+  --card-bg-alt: #f0f2f5;
+  --border: #e4e6ea;
+  --text: #1a1a2e;
+  --text-muted: #4a5568;
+  --text-dim: #718096;
+  --accent: #1877F2;
+  --accent-glow: rgba(24,119,242,0.08);
+  --green: #02c39b;
+  --green-dim: rgba(2,195,155,0.1);
+  --orange: #e08a00;
+  --orange-dim: rgba(224,138,0,0.1);
+  --purple: #7c3aed;
+  --purple-dim: rgba(124,58,237,0.1);
+  --red: #dc2626;
+  --red-dim: rgba(220,38,38,0.1);
+  --hero-grad-from: #1a1a2e;
+  --hero-grad-to: #1877F2;
+  --nav-bg: rgba(250,251,252,0.95);
+  --chart-grid: #e2e8f0;
+  --chart-label: #718096;
+  --heatmap-empty: #f0f2f5;
+  --tooltip-bg: #ffffff;
+  --tooltip-border: #e4e6ea;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: Inter, -apple-system, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  transition: background 0.3s, color 0.3s;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* NAV */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--nav-bg);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center;
+  gap: 4px; height: 52px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-inner::-webkit-scrollbar { display: none; }
+.nav-link {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px; font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none; background: none;
+}
+.nav-link:hover { color: var(--text); background: var(--accent-glow); }
+.nav-link.active { color: var(--accent); background: var(--accent-glow); }
+.theme-toggle {
+  margin-left: auto;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+.theme-toggle:hover { color: var(--orange); border-color: var(--orange); }
+
+/* CONTAINER */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* HERO */
+.hero {
+  padding: 80px 0 48px;
+  text-align: center;
+}
+.hero h1 {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--hero-grad-from), var(--hero-grad-to));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+.hero .subtitle {
+  font-size: 18px;
+  color: var(--text-muted);
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+.stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 28px;
+  min-width: 140px;
+  transition: all 0.3s;
+}
+.stat-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.stat-number {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-number.blue { color: var(--accent); }
+.stat-number.green { color: var(--green); }
+.stat-number.orange { color: var(--orange); }
+.stat-number.purple { color: var(--purple); }
+.stat-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.tags {
+  display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+  margin-top: 16px;
+}
+.tag {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.tag.blue { background: var(--accent-glow); color: var(--accent); }
+.tag.green { background: var(--green-dim); color: var(--green); }
+.tag.orange { background: var(--orange-dim); color: var(--orange); }
+.tag.purple { background: var(--purple-dim); color: var(--purple); }
+
+/* SECTIONS */
+.section {
+  padding: 64px 0 32px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.section.visible { opacity: 1; transform: translateY(0); }
+.section-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.section h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.section .section-desc {
+  color: var(--text-muted);
+  font-size: 15px;
+  margin-bottom: 32px;
+  max-width: 700px;
+}
+
+/* CARDS */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  transition: all 0.3s;
+}
+.card:hover { border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+
+/* CHART */
+.chart-container {
+  width: 100%;
+  overflow-x: auto;
+}
+.chart-container svg {
+  display: block;
+}
+.axis text { fill: var(--chart-label); font-size: 11px; }
+.axis line, .axis path { stroke: var(--chart-grid); }
+.grid line { stroke: var(--chart-grid); stroke-dasharray: 2,4; }
+.grid .domain { display: none; }
+
+/* TOOLTIP */
+.tooltip {
+  position: fixed;
+  background: var(--tooltip-bg);
+  border: 1px solid var(--tooltip-border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 200;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  max-width: 280px;
+}
+.tooltip.show { opacity: 1; }
+.tooltip .tt-label { color: var(--text-muted); font-size: 11px; margin-bottom: 2px; }
+.tooltip .tt-value { font-weight: 700; font-size: 16px; }
+.tooltip .tt-sub { color: var(--text-muted); font-size: 12px; margin-top: 2px; }
+
+/* LEADERBOARD */
+.lb-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.lb-row:last-child { border-bottom: none; }
+.lb-rank {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700;
+  flex-shrink: 0;
+}
+.lb-rank.gold { background: var(--orange-dim); color: var(--orange); }
+.lb-rank.silver { background: var(--purple-dim); color: var(--purple); }
+.lb-rank.bronze { background: var(--green-dim); color: var(--green); }
+.lb-rank.normal { background: var(--accent-glow); color: var(--text-dim); }
+.lb-name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.lb-bar-wrap {
+  flex: 0 0 120px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border);
+  overflow: hidden;
+}
+.lb-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.8s ease;
+}
+.lb-count {
+  flex: 0 0 40px;
+  text-align: right;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* TABS */
+.tabs {
+  display: flex; gap: 4px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+.tab-btn {
+  padding: 10px 18px;
+  border: none; background: none;
+  color: var(--text-muted);
+  font-size: 14px; font-weight: 600;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* GRID */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 768px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .stats-row { gap: 10px; }
+  .stat-card { min-width: 100px; padding: 14px 18px; }
+  .stat-number { font-size: 28px; }
+  .card { padding: 20px; }
+  .lb-bar-wrap { flex: 0 0 60px; }
+}
+
+/* HEATMAP */
+.hm-cell {
+  transition: opacity 0.2s;
+}
+.hm-cell:hover { stroke: var(--text); stroke-width: 2; }
+
+/* TAKEAWAYS */
+.takeaways {
+  background: linear-gradient(135deg, var(--card-bg), var(--card-bg-alt));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px;
+}
+.takeaway-item {
+  display: flex; gap: 16px;
+  margin-bottom: 20px;
+}
+.takeaway-num {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--accent-glow);
+  color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 16px;
+}
+.takeaway-text {
+  font-size: 15px;
+  line-height: 1.5;
+}
+.takeaway-text strong { color: var(--text); }
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 48px 0;
+  color: var(--text-dim);
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+  margin-top: 48px;
+}
+
+/* METRIC CHIPS */
+.metric-chips {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.metric-chip {
+  padding: 12px 20px;
+  border-radius: 12px;
+  display: flex; flex-direction: column;
+}
+.metric-chip .mc-num { font-size: 24px; font-weight: 800; line-height: 1; }
+.metric-chip .mc-label { font-size: 11px; font-weight: 600; margin-top: 4px; letter-spacing: 0.5px; }
+.mc-blue { background: var(--accent-glow); color: var(--accent); }
+.mc-green { background: var(--green-dim); color: var(--green); }
+.mc-orange { background: var(--orange-dim); color: var(--orange); }
+.mc-purple { background: var(--purple-dim); color: var(--purple); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+<div class="nav-inner">
+  <button class="nav-link active" onclick="scrollTo_('hero')">Главная</button>
+  <button class="nav-link" onclick="scrollTo_('timeline')">Хронология</button>
+  <button class="nav-link" onclick="scrollTo_('leaders')">Лидеры</button>
+  <button class="nav-link" onclick="scrollTo_('heatmap')">Активность</button>
+  <button class="nav-link" onclick="scrollTo_('engagement')">Вовлечённость</button>
+  <button class="nav-link" onclick="scrollTo_('takeaways')">Итоги</button>
+  <button class="theme-toggle" onclick="toggleTheme()" title="Переключить тему" aria-label="Toggle theme">
+    <span id="theme-icon">&#9790;</span>
+  </button>
+</div>
+</nav>
+
+<!-- TOOLTIP -->
+<div class="tooltip" id="tooltip"></div>
+
+<div class="container">
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <h1>Татарская школа<br>спортивного ЧГК</h1>
+  <p class="subtitle">Полная история канала @tatarchgk: 609 авторских вопросов, 211 участников, 5 лет интеллектуальных баталий в комментариях</p>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-number blue">609</div>
+      <div class="stat-label">Вопросов</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number green">1 822</div>
+      <div class="stat-label">Комментариев</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number orange">211</div>
+      <div class="stat-label">Участников</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number purple">458</div>
+      <div class="stat-label">Ответов на Teletype</div>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag blue">ЧГК</span>
+    <span class="tag green">Telegram</span>
+    <span class="tag orange">Дек 2020 -- Мар 2026</span>
+    <span class="tag purple">@tatarchgk</span>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="section" id="timeline">
+  <span class="section-badge">01 / Хронология</span>
+  <h2>Вопросы и комментарии по месяцам</h2>
+  <p class="section-desc">Динамика публикаций: сколько вопросов выходило каждый месяц и насколько активно их обсуждали</p>
+  <div class="card">
+    <div class="chart-container" id="timeline-chart"></div>
+  </div>
+</section>
+
+<!-- LEADERS -->
+<section class="section" id="leaders">
+  <span class="section-badge">02 / Лидеры</span>
+  <h2>Таблица лидеров</h2>
+  <p class="section-desc">Кто чаще всего отвечал, кто первым, и у кого больше всего комментариев</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'tab-activity')">Уникальные вопросы</button>
+    <button class="tab-btn" onclick="switchTab(this,'tab-first')">Первые ответы</button>
+    <button class="tab-btn" onclick="switchTab(this,'tab-comments')">Всего комментариев</button>
+  </div>
+
+  <div class="card">
+    <div class="tab-content active" id="tab-activity"></div>
+    <div class="tab-content" id="tab-first"></div>
+    <div class="tab-content" id="tab-comments"></div>
+  </div>
+</section>
+
+<!-- HEATMAP -->
+<section class="section" id="heatmap">
+  <span class="section-badge">03 / Активность</span>
+  <h2>Когда публикуются вопросы</h2>
+  <p class="section-desc">Распределение публикаций по дням недели и часам (UTC)</p>
+  <div class="card">
+    <div class="chart-container" id="heatmap-chart"></div>
+  </div>
+</section>
+
+<!-- ENGAGEMENT -->
+<section class="section" id="engagement">
+  <span class="section-badge">04 / Вовлечённость</span>
+  <h2>Комментарии к вопросам</h2>
+  <p class="section-desc">Среднее количество комментариев на вопрос по годам и соотношение вопросов с ответами на Teletype</p>
+  <div class="grid-2">
+    <div class="card">
+      <h3 style="font-size:16px;margin-bottom:16px;color:var(--text-muted)">Среднее комментариев / вопрос по годам</h3>
+      <div id="engagement-yearly"></div>
+    </div>
+    <div class="card">
+      <h3 style="font-size:16px;margin-bottom:16px;color:var(--text-muted)">Покрытие ответами</h3>
+      <div class="metric-chips">
+        <div class="metric-chip mc-blue"><span class="mc-num">609</span><span class="mc-label">ВСЕГО ВОПРОСОВ</span></div>
+        <div class="metric-chip mc-green"><span class="mc-num">458</span><span class="mc-label">С ОТВЕТОМ НА TELETYPE</span></div>
+        <div class="metric-chip mc-orange"><span class="mc-num">535</span><span class="mc-label">С ПЕРВЫМ ОТВЕТОМ</span></div>
+        <div class="metric-chip mc-purple"><span class="mc-num">88%</span><span class="mc-label">С КОММЕНТАРИЯМИ</span></div>
+      </div>
+      <div id="coverage-chart"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TAKEAWAYS -->
+<section class="section" id="takeaways">
+  <span class="section-badge">05 / Итоги</span>
+  <h2>Ключевые факты</h2>
+  <div class="takeaways">
+    <div class="takeaway-item">
+      <div class="takeaway-num">1</div>
+      <div class="takeaway-text"><strong>609 вопросов за 5 лет</strong> -- канал стартовал 7 декабря 2020 и стабильно публикует вопросы: в среднем ~10 в месяц</div>
+    </div>
+    <div class="takeaway-item">
+      <div class="takeaway-num">2</div>
+      <div class="takeaway-text"><strong>Ilya Onskul -- абсолютный лидер:</strong> 121 комментарий, первым ответил на 46 вопросов, участвовал в обсуждении 100 вопросов</div>
+    </div>
+    <div class="takeaway-item">
+      <div class="takeaway-num">3</div>
+      <div class="takeaway-text"><strong>Artur Boston -- серебро:</strong> 101 комментарий и 30 первых ответов, стабильный участник с самого начала</div>
+    </div>
+    <div class="takeaway-item">
+      <div class="takeaway-num">4</div>
+      <div class="takeaway-text"><strong>Пик активности: январь 2025</strong> -- 27 вопросов и 100 комментариев, самый продуктивный месяц за всю историю</div>
+    </div>
+    <div class="takeaway-item">
+      <div class="takeaway-num">5</div>
+      <div class="takeaway-text"><strong>75% ответов задокументированы</strong> -- 458 из 609 вопросов имеют ответ на Teletype с комментарием автора</div>
+    </div>
+    <div class="takeaway-item">
+      <div class="takeaway-num">6</div>
+      <div class="takeaway-text"><strong>211 уникальных комментаторов</strong> -- от постоянных участников до тех, кто заглянул один раз</div>
+    </div>
+    <div class="takeaway-item">
+      <div class="takeaway-num">7</div>
+      <div class="takeaway-text"><strong>Самое активное время: будни, 10:00--15:00 UTC</strong> -- вопросы публикуются преимущественно днём по рабочим дням</div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer class="footer">
+  <a href="https://t.me/tatarchgk" target="_blank">@tatarchgk</a> · Татарская школа спортивного ЧГК · Декабрь 2020 -- Март 2026<br>
+  Сгенерировано автоматически из данных канала
+</footer>
+
+<script>
+// === DATA ===
+const DATA = {
+monthly: [{"m":"2020-12","q":31,"c":56},{"m":"2021-01","q":20,"c":62},{"m":"2021-02","q":11,"c":20},{"m":"2021-03","q":5,"c":14},{"m":"2021-04","q":5,"c":13},{"m":"2021-05","q":12,"c":27},{"m":"2021-06","q":11,"c":20},{"m":"2021-07","q":12,"c":16},{"m":"2021-08","q":5,"c":14},{"m":"2021-09","q":8,"c":7},{"m":"2021-10","q":6,"c":18},{"m":"2021-11","q":10,"c":19},{"m":"2021-12","q":4,"c":8},{"m":"2022-01","q":12,"c":21},{"m":"2022-02","q":7,"c":11},{"m":"2022-03","q":5,"c":4},{"m":"2022-04","q":6,"c":20},{"m":"2022-05","q":10,"c":18},{"m":"2022-06","q":17,"c":28},{"m":"2022-07","q":17,"c":36},{"m":"2022-08","q":5,"c":11},{"m":"2022-09","q":8,"c":27},{"m":"2022-10","q":7,"c":20},{"m":"2022-11","q":4,"c":10},{"m":"2022-12","q":4,"c":11},{"m":"2023-01","q":4,"c":13},{"m":"2023-02","q":8,"c":25},{"m":"2023-03","q":9,"c":25},{"m":"2023-04","q":3,"c":14},{"m":"2023-05","q":5,"c":17},{"m":"2023-06","q":1,"c":4},{"m":"2023-07","q":4,"c":16},{"m":"2023-08","q":5,"c":20},{"m":"2023-09","q":8,"c":35},{"m":"2023-10","q":12,"c":31},{"m":"2023-11","q":12,"c":29},{"m":"2023-12","q":14,"c":55},{"m":"2024-01","q":11,"c":34},{"m":"2024-02","q":10,"c":26},{"m":"2024-03","q":3,"c":1},{"m":"2024-04","q":6,"c":25},{"m":"2024-05","q":8,"c":40},{"m":"2024-06","q":10,"c":38},{"m":"2024-07","q":10,"c":41},{"m":"2024-08","q":11,"c":36},{"m":"2024-09","q":8,"c":33},{"m":"2024-10","q":13,"c":49},{"m":"2024-11","q":12,"c":46},{"m":"2024-12","q":14,"c":53},{"m":"2025-01","q":27,"c":100},{"m":"2025-02","q":21,"c":72},{"m":"2025-03","q":25,"c":95},{"m":"2025-04","q":14,"c":37},{"m":"2025-05","q":6,"c":15},{"m":"2025-06","q":5,"c":18},{"m":"2025-07","q":6,"c":21},{"m":"2025-08","q":2,"c":2},{"m":"2025-09","q":2,"c":2},{"m":"2025-10","q":3,"c":10},{"m":"2025-11","q":6,"c":18},{"m":"2025-12","q":13,"c":51},{"m":"2026-01","q":11,"c":53},{"m":"2026-02","q":16,"c":70},{"m":"2026-03","q":9,"c":41}],
+activity: [["Ilya Onskul",100],["Artur Boston",78],["татарская школа ШДК",61],["Alexander Potapenko",57],["Dmytro Slobodianiuk",50],["R",46],["Stanislav Utikeev",45],["Roman Sorokin",35],["Damir Zhadikov",35],["captain craboo",33],["Arthur Gorbachev",32],["R K",31],["Anvar Churagulov",27],["Iakov Shereshevskii",24],["Семён Шмаевский",24],["Elena Dedova",23],["Pavel Kaznacheev",19],["Фёдор Журавлёв",17],["Катя",16],["Egor Kulikov",16]],
+first: [["Ilya Onskul",46],["Artur Boston",30],["Alexander Potapenko",26],["татарская школа ШДК",22],["Stanislav Utikeev",19],["Dmytro Slobodianiuk",19],["R",13],["R K",13],["Anvar Churagulov",13],["captain craboo",13],["Arthur Gorbachev",13],["Iakov Shereshevskii",12],["Damir Zhadikov",10],["Семён Шмаевский",9],["Roman Sorokin",8]],
+comments: [["Ilya Onskul",121],["Artur Boston",101],["татарская школа ШДК",91],["Alexander Potapenko",67],["Stanislav Utikeev",56],["Dmytro Slobodianiuk",56],["R",51],["captain craboo",47],["Arthur Gorbachev",42],["Damir Zhadikov",41],["R K",40],["Roman Sorokin",38],["Anvar Churagulov",37],["Elena Dedova",27],["Семён Шмаевский",27],["Iakov Shereshevskii",26],["Pavel Kaznacheev",25],["Фёдор Журавлёв",21],["Egor Kulikov",20],["Катя",18]],
+heatmap: [{"d":0,"h":0,"v":1},{"d":0,"h":1,"v":2},{"d":0,"h":4,"v":1},{"d":0,"h":6,"v":2},{"d":0,"h":7,"v":2},{"d":0,"h":8,"v":4},{"d":0,"h":9,"v":6},{"d":0,"h":10,"v":8},{"d":0,"h":11,"v":12},{"d":0,"h":12,"v":3},{"d":0,"h":13,"v":9},{"d":0,"h":14,"v":6},{"d":0,"h":15,"v":12},{"d":0,"h":16,"v":5},{"d":0,"h":17,"v":2},{"d":0,"h":18,"v":3},{"d":0,"h":19,"v":6},{"d":0,"h":20,"v":6},{"d":0,"h":22,"v":1},{"d":0,"h":23,"v":2},{"d":1,"h":6,"v":2},{"d":1,"h":7,"v":4},{"d":1,"h":8,"v":4},{"d":1,"h":9,"v":3},{"d":1,"h":10,"v":9},{"d":1,"h":11,"v":6},{"d":1,"h":12,"v":16},{"d":1,"h":13,"v":7},{"d":1,"h":14,"v":8},{"d":1,"h":15,"v":5},{"d":1,"h":16,"v":2},{"d":1,"h":17,"v":7},{"d":1,"h":18,"v":3},{"d":1,"h":19,"v":1},{"d":1,"h":20,"v":7},{"d":1,"h":21,"v":1},{"d":1,"h":22,"v":1},{"d":1,"h":23,"v":3},{"d":2,"h":7,"v":2},{"d":2,"h":8,"v":2},{"d":2,"h":9,"v":10},{"d":2,"h":10,"v":9},{"d":2,"h":11,"v":14},{"d":2,"h":12,"v":7},{"d":2,"h":13,"v":6},{"d":2,"h":14,"v":9},{"d":2,"h":15,"v":5},{"d":2,"h":16,"v":2},{"d":2,"h":17,"v":4},{"d":2,"h":18,"v":4},{"d":2,"h":19,"v":8},{"d":2,"h":20,"v":5},{"d":2,"h":21,"v":3},{"d":2,"h":23,"v":2},{"d":3,"h":5,"v":1},{"d":3,"h":6,"v":3},{"d":3,"h":7,"v":2},{"d":3,"h":8,"v":5},{"d":3,"h":9,"v":11},{"d":3,"h":10,"v":6},{"d":3,"h":11,"v":10},{"d":3,"h":12,"v":15},{"d":3,"h":13,"v":9},{"d":3,"h":14,"v":4},{"d":3,"h":15,"v":2},{"d":3,"h":16,"v":2},{"d":3,"h":17,"v":4},{"d":3,"h":18,"v":9},{"d":3,"h":19,"v":4},{"d":3,"h":20,"v":7},{"d":3,"h":21,"v":5},{"d":3,"h":22,"v":4},{"d":3,"h":23,"v":2},{"d":4,"h":1,"v":1},{"d":4,"h":5,"v":1},{"d":4,"h":6,"v":2},{"d":4,"h":7,"v":2},{"d":4,"h":8,"v":3},{"d":4,"h":9,"v":8},{"d":4,"h":10,"v":15},{"d":4,"h":11,"v":12},{"d":4,"h":12,"v":8},{"d":4,"h":13,"v":5},{"d":4,"h":14,"v":6},{"d":4,"h":15,"v":12},{"d":4,"h":16,"v":5},{"d":4,"h":17,"v":3},{"d":4,"h":18,"v":6},{"d":4,"h":19,"v":3},{"d":4,"h":20,"v":3},{"d":4,"h":21,"v":1},{"d":4,"h":22,"v":2},{"d":4,"h":23,"v":1},{"d":5,"h":0,"v":2},{"d":5,"h":4,"v":1},{"d":5,"h":6,"v":2},{"d":5,"h":7,"v":2},{"d":5,"h":8,"v":2},{"d":5,"h":9,"v":3},{"d":5,"h":10,"v":7},{"d":5,"h":11,"v":3},{"d":5,"h":12,"v":3},{"d":5,"h":13,"v":6},{"d":5,"h":14,"v":8},{"d":5,"h":15,"v":6},{"d":5,"h":16,"v":5},{"d":5,"h":17,"v":4},{"d":5,"h":18,"v":2},{"d":5,"h":19,"v":1},{"d":5,"h":20,"v":2},{"d":5,"h":21,"v":5},{"d":5,"h":22,"v":3},{"d":6,"h":0,"v":1},{"d":6,"h":1,"v":1},{"d":6,"h":6,"v":2},{"d":6,"h":7,"v":2},{"d":6,"h":8,"v":3},{"d":6,"h":9,"v":2},{"d":6,"h":10,"v":3},{"d":6,"h":11,"v":2},{"d":6,"h":12,"v":8},{"d":6,"h":13,"v":4},{"d":6,"h":14,"v":3},{"d":6,"h":15,"v":4},{"d":6,"h":16,"v":3},{"d":6,"h":17,"v":3},{"d":6,"h":18,"v":4},{"d":6,"h":19,"v":5},{"d":6,"h":20,"v":3},{"d":6,"h":21,"v":8},{"d":6,"h":22,"v":2},{"d":6,"h":23,"v":1}]
+};
+
+// === THEME ===
+function toggleTheme() {
+  const html = document.documentElement;
+  const t = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', t);
+  localStorage.setItem('theme', t);
+  document.getElementById('theme-icon').innerHTML = t === 'dark' ? '&#9790;' : '&#9788;';
+  // Redraw charts
+  drawAll();
+}
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved) {
+    document.documentElement.setAttribute('data-theme', saved);
+    document.getElementById('theme-icon').innerHTML = saved === 'dark' ? '&#9790;' : '&#9788;';
+  }
+})();
+
+// === NAV SCROLL ===
+function scrollTo_(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+const sections = ['hero','timeline','leaders','heatmap','engagement','takeaways'];
+const navLinks = document.querySelectorAll('.nav-link:not(.theme-toggle)');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navLinks.forEach((l,i) => l.classList.toggle('active', sections[i] === id));
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(id => { const el = document.getElementById(id); if(el) observer.observe(el); });
+
+// === SCROLL REVEAL ===
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.section').forEach(s => revealObs.observe(s));
+
+// === TABS ===
+function switchTab(btn, tabId) {
+  btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  btn.closest('.section').querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+}
+
+// === TOOLTIP ===
+const tooltip = document.getElementById('tooltip');
+function showTip(evt, html) {
+  tooltip.innerHTML = html;
+  tooltip.classList.add('show');
+  const x = Math.min(evt.clientX + 12, window.innerWidth - 290);
+  const y = evt.clientY - 60 < 0 ? evt.clientY + 20 : evt.clientY - 60;
+  tooltip.style.left = x + 'px';
+  tooltip.style.top = y + 'px';
+}
+function hideTip() { tooltip.classList.remove('show'); }
+
+// === HELPERS ===
+function getCSS(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+function svgEl(tag, attrs) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (const [k, v] of Object.entries(attrs || {})) el.setAttribute(k, v);
+  return el;
+}
+
+// === LEADERBOARD RENDERER ===
+function renderLeaderboard(containerId, data, color) {
+  const el = document.getElementById(containerId);
+  const maxVal = data[0][1];
+  el.innerHTML = data.map(([name, count], i) => {
+    const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : 'normal';
+    const pct = (count / maxVal * 100).toFixed(0);
+    return `<div class="lb-row">
+      <div class="lb-rank ${rankClass}">${i+1}</div>
+      <div class="lb-name" title="${name}">${name}</div>
+      <div class="lb-bar-wrap"><div class="lb-bar" style="width:${pct}%;background:${color}"></div></div>
+      <div class="lb-count" style="color:${color}">${count}</div>
+    </div>`;
+  }).join('');
+}
+
+// === CHART DRAWING ===
+function drawAll() {
+  drawTimeline();
+  drawHeatmap();
+  drawYearly();
+  drawCoverage();
+  renderLeaderboard('tab-activity', DATA.activity, getCSS('--accent'));
+  renderLeaderboard('tab-first', DATA.first, getCSS('--green'));
+  renderLeaderboard('tab-comments', DATA.comments, getCSS('--orange'));
+}
+
+function drawTimeline() {
+  const container = document.getElementById('timeline-chart');
+  const W = Math.max(container.clientWidth, 600);
+  const H = 320;
+  const m = { t: 20, r: 20, b: 50, l: 44 };
+  const w = W - m.l - m.r;
+  const h = H - m.t - m.b;
+  container.innerHTML = '';
+
+  const data = DATA.monthly;
+  const maxQ = Math.max(...data.map(d => d.q));
+  const maxC = Math.max(...data.map(d => d.c));
+  const barW = Math.max(2, (w / data.length) - 2);
+
+  const svg = svgEl('svg', { width: W, height: H, viewBox: `0 0 ${W} ${H}` });
+
+  // Grid
+  for (let i = 0; i <= 4; i++) {
+    const y = m.t + (h / 4) * i;
+    const val = Math.round(maxQ * (1 - i/4));
+    svg.appendChild(svgEl('line', { x1: m.l, x2: W-m.r, y1: y, y2: y, stroke: getCSS('--chart-grid'), 'stroke-dasharray': '2,4' }));
+    const txt = svgEl('text', { x: m.l - 8, y: y + 4, 'text-anchor': 'end', fill: getCSS('--chart-label'), 'font-size': '11' });
+    txt.textContent = val;
+    svg.appendChild(txt);
+  }
+
+  // Bars (questions) + line (comments)
+  const accent = getCSS('--accent');
+  const green = getCSS('--green');
+  let linePath = '';
+
+  data.forEach((d, i) => {
+    const x = m.l + (i / data.length) * w + barW * 0.15;
+    const barH = (d.q / maxQ) * h;
+    const y = m.t + h - barH;
+
+    const rect = svgEl('rect', {
+      x: x, y: y, width: barW * 0.7, height: barH,
+      rx: 2, fill: accent, opacity: 0.8
+    });
+    rect.addEventListener('mousemove', e => showTip(e,
+      `<div class="tt-label">${d.m}</div><div class="tt-value" style="color:${accent}">${d.q} вопросов</div><div class="tt-sub">${d.c} комментариев</div>`));
+    rect.addEventListener('mouseleave', hideTip);
+    svg.appendChild(rect);
+
+    // Comment line point
+    const cx = x + barW * 0.35;
+    const cy = m.t + h - (d.c / maxC) * h;
+    linePath += (i === 0 ? 'M' : 'L') + cx + ',' + cy;
+  });
+
+  // Comments line
+  const path = svgEl('path', { d: linePath, fill: 'none', stroke: green, 'stroke-width': 2, 'stroke-linejoin': 'round' });
+  svg.appendChild(path);
+
+  // X labels (every 6 months)
+  data.forEach((d, i) => {
+    if (i % 6 === 0) {
+      const x = m.l + (i / data.length) * w + barW * 0.35;
+      const txt = svgEl('text', { x: x, y: H - 8, 'text-anchor': 'middle', fill: getCSS('--chart-label'), 'font-size': '10' });
+      txt.textContent = d.m;
+      svg.appendChild(txt);
+    }
+  });
+
+  // Legend
+  const lg = m.l + 8;
+  svg.appendChild(svgEl('rect', { x: lg, y: m.t + 4, width: 12, height: 12, rx: 2, fill: accent, opacity: 0.8 }));
+  const t1 = svgEl('text', { x: lg + 18, y: m.t + 14, fill: getCSS('--text-muted'), 'font-size': '11' });
+  t1.textContent = 'Вопросы';
+  svg.appendChild(t1);
+  svg.appendChild(svgEl('line', { x1: lg + 90, x2: lg + 110, y1: m.t + 10, y2: m.t + 10, stroke: green, 'stroke-width': 2 }));
+  const t2 = svgEl('text', { x: lg + 116, y: m.t + 14, fill: getCSS('--text-muted'), 'font-size': '11' });
+  t2.textContent = 'Комментарии';
+  svg.appendChild(t2);
+
+  container.appendChild(svg);
+}
+
+function drawHeatmap() {
+  const container = document.getElementById('heatmap-chart');
+  const days = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+  const cellSize = Math.min(28, (container.clientWidth - 60) / 24);
+  const gap = 3;
+  const W = 60 + 24 * (cellSize + gap);
+  const H = 40 + 7 * (cellSize + gap);
+  container.innerHTML = '';
+
+  const lookup = {};
+  let maxV = 0;
+  DATA.heatmap.forEach(d => { lookup[d.d + '_' + d.h] = d.v; maxV = Math.max(maxV, d.v); });
+
+  const accent = getCSS('--accent');
+  const empty = getCSS('--heatmap-empty');
+
+  const svg = svgEl('svg', { width: W, height: H, viewBox: `0 0 ${W} ${H}` });
+
+  // Hour labels
+  for (let h = 0; h < 24; h++) {
+    if (h % 3 === 0) {
+      const txt = svgEl('text', { x: 60 + h * (cellSize+gap) + cellSize/2, y: 16, 'text-anchor': 'middle', fill: getCSS('--chart-label'), 'font-size': '10' });
+      txt.textContent = h + ':00';
+      svg.appendChild(txt);
+    }
+  }
+
+  // Day labels + cells
+  for (let d = 0; d < 7; d++) {
+    const txt = svgEl('text', { x: 48, y: 32 + d * (cellSize+gap) + cellSize/2 + 4, 'text-anchor': 'end', fill: getCSS('--chart-label'), 'font-size': '11' });
+    txt.textContent = days[d];
+    svg.appendChild(txt);
+
+    for (let h = 0; h < 24; h++) {
+      const v = lookup[d + '_' + h] || 0;
+      const opacity = v > 0 ? 0.15 + (v / maxV) * 0.85 : 0;
+      const fill = v > 0 ? accent : empty;
+      const rect = svgEl('rect', {
+        class: 'hm-cell',
+        x: 60 + h * (cellSize+gap),
+        y: 26 + d * (cellSize+gap),
+        width: cellSize, height: cellSize,
+        rx: 4, fill: fill, opacity: v > 0 ? opacity : 1
+      });
+      rect.addEventListener('mousemove', e => showTip(e,
+        `<div class="tt-label">${days[d]}, ${h}:00</div><div class="tt-value">${v} вопросов</div>`));
+      rect.addEventListener('mouseleave', hideTip);
+      svg.appendChild(rect);
+    }
+  }
+
+  container.appendChild(svg);
+}
+
+function drawYearly() {
+  const container = document.getElementById('engagement-yearly');
+  // Compute avg comments per question by year
+  const yearly = {};
+  DATA.monthly.forEach(d => {
+    const yr = d.m.substring(0,4);
+    if (!yearly[yr]) yearly[yr] = { q: 0, c: 0 };
+    yearly[yr].q += d.q;
+    yearly[yr].c += d.c;
+  });
+  const years = Object.keys(yearly).sort();
+  const avgData = years.map(y => ({ y, avg: (yearly[y].c / yearly[y].q).toFixed(1) }));
+
+  const W = Math.max(container.clientWidth, 300);
+  const H = 200;
+  const m = { t: 10, r: 10, b: 30, l: 36 };
+  const w = W - m.l - m.r;
+  const h = H - m.t - m.b;
+  container.innerHTML = '';
+
+  const maxAvg = Math.max(...avgData.map(d => +d.avg));
+  const barW = Math.min(48, (w / avgData.length) * 0.6);
+  const green = getCSS('--green');
+
+  const svg = svgEl('svg', { width: W, height: H, viewBox: `0 0 ${W} ${H}` });
+
+  avgData.forEach((d, i) => {
+    const x = m.l + (i + 0.5) * (w / avgData.length) - barW/2;
+    const barH = (+d.avg / maxAvg) * h;
+    const y = m.t + h - barH;
+
+    svg.appendChild(svgEl('rect', { x, y, width: barW, height: barH, rx: 4, fill: green, opacity: 0.8 }));
+
+    const valTxt = svgEl('text', { x: x + barW/2, y: y - 6, 'text-anchor': 'middle', fill: green, 'font-size': '13', 'font-weight': '700' });
+    valTxt.textContent = d.avg;
+    svg.appendChild(valTxt);
+
+    const lbl = svgEl('text', { x: x + barW/2, y: H - 6, 'text-anchor': 'middle', fill: getCSS('--chart-label'), 'font-size': '11' });
+    lbl.textContent = d.y;
+    svg.appendChild(lbl);
+  });
+
+  container.appendChild(svg);
+}
+
+function drawCoverage() {
+  const container = document.getElementById('coverage-chart');
+  container.innerHTML = '';
+  const total = 609;
+  const items = [
+    { label: 'С ответом на Teletype', val: 458, color: getCSS('--green') },
+    { label: 'С первым ответом', val: 535, color: getCSS('--orange') },
+    { label: 'С комментариями', val: 535, color: getCSS('--purple') }
+  ];
+
+  const W = Math.max(container.clientWidth, 280);
+  const H = 100;
+  container.innerHTML = '';
+
+  const svg = svgEl('svg', { width: W, height: H, viewBox: `0 0 ${W} ${H}` });
+  const barH = 18;
+  const m = { l: 0, r: 0 };
+  const w = W - m.l - m.r;
+
+  items.forEach((item, i) => {
+    const y = 8 + i * 32;
+    const pct = item.val / total;
+
+    svg.appendChild(svgEl('rect', { x: m.l, y, width: w, height: barH, rx: 9, fill: getCSS('--border') }));
+    svg.appendChild(svgEl('rect', { x: m.l, y, width: w * pct, height: barH, rx: 9, fill: item.color, opacity: 0.85 }));
+
+    const txt = svgEl('text', { x: m.l + w * pct + 8, y: y + 13, fill: item.color, 'font-size': '12', 'font-weight': '600' });
+    txt.textContent = `${Math.round(pct*100)}%`;
+    if (w * pct + 40 > w) { txt.setAttribute('x', w * pct - 8); txt.setAttribute('text-anchor', 'end'); }
+    svg.appendChild(txt);
+  });
+
+  container.appendChild(svg);
+}
+
+// === INIT ===
+drawAll();
+window.addEventListener('resize', () => { clearTimeout(window._resizeT); window._resizeT = setTimeout(drawAll, 200); });
+</script>
+</body>
+</html>
